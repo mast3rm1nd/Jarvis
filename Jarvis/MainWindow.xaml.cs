@@ -288,7 +288,18 @@ namespace Jarvis
             grammar = new Grammar(gBuilder);
 
             recEngine.LoadGrammarAsync(grammar);
-            recEngine.SetInputToDefaultAudioDevice();
+
+            try
+            {
+                recEngine.SetInputToDefaultAudioDevice();
+            }
+            catch
+            {
+                RecognizedText_TextBox.Text += "В системе не выбрано устройство записи звука по-умолчанию. Выберите и перезапустите программу.";
+
+                return;
+            }
+
             recEngine.SpeechRecognized += RecEngine_SpeechRecognized;
             recEngine.SpeechHypothesized += RecEngine_SpeechHypothesized;
             recEngine.RecognizeAsync(RecognizeMode.Multiple);
@@ -298,7 +309,18 @@ namespace Jarvis
             var voice = new SpeechSynthesizer().GetInstalledVoices().Where(v => v.VoiceInfo.Name.Contains(speech_language)).ToArray()[0].VoiceInfo.Name;
 
             synth.SelectVoice(voice);
-            synth.SetOutputToDefaultAudioDevice();
+
+            try
+            {
+                synth.SetOutputToDefaultAudioDevice();
+            }
+            catch (Exception)
+            {
+                RecognizedText_TextBox.Text += "В системе не выбрано устройство воспроизведения звука по-умолчанию. Выберите и перезапустите программу.";
+
+                return;
+            }
+
             synth.Volume = 100;            
         }
 
