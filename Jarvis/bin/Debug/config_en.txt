@@ -1,7 +1,8 @@
-﻿name: "Helen" // имя программы, пока не используется
+﻿name: "Salli"
+hello_message: "Hello, my name is Salli, i'm your noughty little slave"
 confidence_threshold: 0.6 // порог уверенности (вероятность) в верности распознавания, после которого фраза считается распознанной
 recognize_language: "en-GB" // язык, которым отдаются голосовые команды
-speech_language: "en-US, Helen" // язык, которым программа разговаривает
+speech_language: "IVONA 2 Salli" // язык, которым программа разговаривает
 daysofweek: "monday" "tuesday" "wednesday" "thursday" "friday" "saturday" "sunday" // дни недели для произнесения текущего дня недели
 x_hours: "hours" // ддля произнесения текущего времени
 x_minutes: "minutes" // ддля произнесения текущего времени
@@ -36,25 +37,13 @@ die - закрытие данной программы
 "open skype" "open" "C:\Program Files (x86)\Skype\Phone\Skype.exe"
 "close skype" "kill" "Skype"
 
-"hi" "say" "hello, my master"
+"hello" "say" "hello, my master"
 "need backup" "say" "affirmative. roger that. sector clear."
-"siri" "say" "who is siri? i'm helen"
+"siri" "say" "who is siri? i'm Salli"
 "good job" "say" "naaaawwww... thank you my dear"
-"dog goes" "say" "woof"
-"cat goes" "say" "meow"
-"bird goes" "say" "tweet"
-"and a mouse goes" "say" "squeek"
-"cow goes" "say" "moo"
-"cow goes" "say" "moo"
-"frog goes" "say" "croak"
-"and the elephant goes" "say" "toot"
-"ducks say" "say" "quack"
-"and fish go" "say" "blub"
-"and the seal goes" "say" "ow ow ow ow ow"
-"What does the fox say" "say" "Wa-pa-pa-pa-pa-pa-pow"
 
 
-"die" "die" "well, fuck you"
+"kill yourself" "die" "well, fuck you"
 
 "sleep" "off" "zzzz"
-"rise and shine" "on" "i'm here"
+"rise and shine" "on" "i'm here, my master, it would be pleasure to execute your orders again"

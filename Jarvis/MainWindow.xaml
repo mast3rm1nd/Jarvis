@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Jarvena" Height="281" Width="469" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBox x:Name="RecognizedText_TextBox" HorizontalAlignment="Left" Height="231.8" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="443" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+        <TextBox x:Name="RecognizedText_TextBox" Margin="10,10,10,11.2" TextWrapping="Wrap" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
 
     </Grid>
 </Window>

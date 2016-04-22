@@ -3,7 +3,8 @@ using System.Windows;
 
 //using System.Speech.Recognition;
 using Microsoft.Speech.Recognition;
-using Microsoft.Speech.Synthesis;
+//using Microsoft.Speech.Synthesis;
+using System.Speech.Synthesis;
 
 using System.Diagnostics;
 using System.IO;
@@ -20,13 +21,14 @@ namespace Jarvis
     public partial class MainWindow : Window
     {
         //SpeechRecognitionEngine recEngine = new SpeechRecognitionEngine();
-        SpeechRecognitionEngine recEngine = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("ru-RU"));
-        SpeechSynthesizer synth = new SpeechSynthesizer();
+        Microsoft.Speech.Recognition.SpeechRecognitionEngine recEngine = new Microsoft.Speech.Recognition.SpeechRecognitionEngine();
+        //System.Speech.Recognition.SpeechRecognitionEngine recEngine = new System.Speech.Recognition.SpeechRecognitionEngine();
+        System.Speech.Synthesis.SpeechSynthesizer synth = new System.Speech.Synthesis.SpeechSynthesizer();
 
-        static string jarvisName = "Елена";
-        static double threshold = 0.6;
-        static string recognize_language = "ru-RU";
-        static string speech_language = "ru-RU, Elena";
+        static string jarvisName, helloMessage;
+        static double threshold;
+        static string recognize_language;
+        static string speech_language;
 
         static string[] daysofweek;
         static string x_hours, x_minutes, recognized, ignored;
@@ -44,8 +46,6 @@ namespace Jarvis
         public MainWindow()
         {
             InitializeComponent();
-
-            //SistemVolumChanger.SetVolume(-1);
 
             LoadSettings("config_ru.txt");
         }
@@ -237,6 +237,7 @@ namespace Jarvis
             var settings = File.ReadAllText(configFileName);
 
             jarvisName = Regex.Match(settings, "name: \"(.+?)\"").Groups[1].Value;
+            helloMessage = Regex.Match(settings, "hello_message: \"(.+?)\"").Groups[1].Value;
             threshold = double.Parse(Regex.Match(settings, "confidence_threshold: (.+?) ", RegexOptions.Compiled).Groups[1].Value.Replace('.', ','));
             recognize_language = Regex.Match(settings, "recognize_language: \"(.+?)\"").Groups[1].Value;
             speech_language = Regex.Match(settings, "speech_language: \"(.+?)\"").Groups[1].Value;
@@ -283,7 +284,8 @@ namespace Jarvis
             gBuilder.Append(commands);
             gBuilder.Culture = new System.Globalization.CultureInfo(recognize_language);
 
-            recEngine = new SpeechRecognitionEngine(new System.Globalization.CultureInfo(recognize_language));
+            //recEngine = new Microsoft.Speech.Recognition.SpeechRecognitionEngine(new System.Globalization.CultureInfo(recognize_language));
+            recEngine = new Microsoft.Speech.Recognition.SpeechRecognitionEngine(new System.Globalization.CultureInfo(recognize_language));
 
             grammar = new Grammar(gBuilder);
 
@@ -306,7 +308,7 @@ namespace Jarvis
 
             
 
-            var voice = new SpeechSynthesizer().GetInstalledVoices().Where(v => v.VoiceInfo.Name.Contains(speech_language)).ToArray()[0].VoiceInfo.Name;
+            var voice = new System.Speech.Synthesis.SpeechSynthesizer().GetInstalledVoices().Where(v => v.VoiceInfo.Name.Contains(speech_language)).ToArray()[0].VoiceInfo.Name;
 
             synth.SelectVoice(voice);
 
@@ -321,7 +323,10 @@ namespace Jarvis
                 return;
             }
 
-            synth.Volume = 100;            
+            synth.Volume = 100;
+
+
+            Say(helloMessage);
         }
 
 
