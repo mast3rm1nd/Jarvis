@@ -27,7 +27,7 @@ namespace Jarvis
 
         static string jarvisName, helloMessage;
         static double threshold;
-        static string recognize_language;
+        static string recognize_language, prev_recognize_language;
         static string speech_language;
 
         static string[] daysofweek;
@@ -284,29 +284,36 @@ namespace Jarvis
             gBuilder.Append(commands);
             gBuilder.Culture = new System.Globalization.CultureInfo(recognize_language);
 
-            //recEngine = new Microsoft.Speech.Recognition.SpeechRecognitionEngine(new System.Globalization.CultureInfo(recognize_language));
-            recEngine = new Microsoft.Speech.Recognition.SpeechRecognitionEngine(new System.Globalization.CultureInfo(recognize_language));
 
-            grammar = new Grammar(gBuilder);
-
-            recEngine.LoadGrammarAsync(grammar);
-
-            try
+            if(prev_recognize_language != recognize_language)
             {
-                recEngine.SetInputToDefaultAudioDevice();
+                recEngine = new Microsoft.Speech.Recognition.SpeechRecognitionEngine(new System.Globalization.CultureInfo(recognize_language));
+
+                try
+                {
+                    recEngine.SetInputToDefaultAudioDevice();
+                }
+                catch
+                {
+                    RecognizedText_TextBox.Text += "В системе не выбрано устройство записи звука по-умолчанию. Выберите и перезапустите программу.";
+
+                    return;
+                }
+
+                prev_recognize_language = recognize_language;
+
+                grammar = new Grammar(gBuilder);
+
+                recEngine.LoadGrammarAsync(grammar);
+
+
+                recEngine.SpeechRecognized += RecEngine_SpeechRecognized;
+                recEngine.SpeechHypothesized += RecEngine_SpeechHypothesized;
+                recEngine.RecognizeAsync(RecognizeMode.Multiple);
             }
-            catch
-            {
-                RecognizedText_TextBox.Text += "В системе не выбрано устройство записи звука по-умолчанию. Выберите и перезапустите программу.";
 
-                return;
-            }
 
-            recEngine.SpeechRecognized += RecEngine_SpeechRecognized;
-            recEngine.SpeechHypothesized += RecEngine_SpeechHypothesized;
-            recEngine.RecognizeAsync(RecognizeMode.Multiple);
 
-            
 
             var voice = new System.Speech.Synthesis.SpeechSynthesizer().GetInstalledVoices().Where(v => v.VoiceInfo.Name.Contains(speech_language)).ToArray()[0].VoiceInfo.Name;
 
